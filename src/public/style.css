@@ -9,6 +9,7 @@ body {
   height: 100vh;
   overflow: hidden;
   font-size: 16px;
+  font-family: 'Yusei Magic', sans-serif;
 }
 
 .main {
@@ -38,16 +39,16 @@ body {
   margin-bottom: 30px;
 }
 
-.timer-title {
-  margin-right: 10px;
-}
-
 .timer-numbers {
+  font-size: 5em;
   letter-spacing: 3px;
 }
 
-.start_btn,
-.stop_btn {
+.timer-buttons {
+  display: flex;
+}
+
+.btn {
   width: 180px;
   height: 40px;
   margin: 10px;
@@ -55,15 +56,14 @@ body {
   border-radius: 10px;
   font-size: 1.2em;
   transition: opacity 0.2s;
+  font-family: 'Yusei Magic', sans-serif;
 }
 
-.start_btn:hover,
-.stop_btn:hover {
+.btn:hover {
   opacity: 0.8;
 }
 
-.start_btn:active,
-.stop_btn:active {
+.btn:active {
   opacity: 1;
 }
 

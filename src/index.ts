@@ -1,47 +1,58 @@
 class Timer {
   timerInterval: NodeJS.Timeout;
+  timeCounter: number;
   timerElement: Element;
-  timeCounter: number
+  startBtn: Element;
+  stopBtn: Element;
+  resetBtn: Element;
 
   constructor() {
-    this.timerInterval
+    this.timerInterval = null;
+    this.timeCounter = 0;
     this.timerElement = document.querySelector('.timer-numbers');
-    this.timeCounter;
+    this.startBtn = document.querySelector('.start_btn');
+    this.stopBtn = document.querySelector('.stop_btn');
+    this.resetBtn = document.querySelector('.reset_btn');
   }
 
   public intiTimer(): void {
-    document.querySelector('.start_btn')
-    .addEventListener('click', this.startTimer);
+    this.startBtn.addEventListener('click', this.startTimer);
+    this.resetBtn.addEventListener('click', this.resetTimer);
   }
 
-  private startTimer(event: Event): void {
+  private startTimer = (event: Event): void => {
     event.target.removeEventListener('click', this.startTimer);
-    this.timerElement.innerHTML = this.getTimer();
+    this.setTime();
 
     this.timerInterval = setInterval(() => {
       this.timeCounter += 1;
-      this.timerElement.innerHTML = this.getTimer();
+      this.setTime();
     }, 1000);
 
-    document.querySelector('.stop_btn')
-    .addEventListener('click', this.stopTimer);
+    this.stopBtn.addEventListener('click', this.stopTimer);
   }
 
-  private stopTimer(event: Event): void {
-    event.target.removeEventListener('click', this.stopTimer);
+  private stopTimer = (): void => {
+    this.stopBtn,removeEventListener('click', this.stopTimer);
     clearInterval(this.timerInterval);
-    document.querySelector('.start_btn').addEventListener('click', this.startTimer);
+    this.startBtn.addEventListener('click', this.startTimer);
   }
 
-  private getTimer(): string {
+  private setTime = (): void => {
     const secondsPerMinute = 60;
     const minutes: number = Math.trunc(this.timeCounter / secondsPerMinute);
     const seconds: number = Math.trunc(this.timeCounter % secondsPerMinute);
 
-    return `
+    this.timerElement.innerHTML = `
     ${ minutes < 10 ? `0` + minutes : minutes }:${ seconds < 10 ? `0` + seconds : seconds }
     `;
   }
+
+  private resetTimer = (): void => {
+    this.stopTimer();
+    this.timeCounter = 0;
+    this.setTime();
+  } 
 }
 
 const timer = new Timer();
