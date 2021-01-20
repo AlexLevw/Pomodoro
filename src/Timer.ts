@@ -1,3 +1,5 @@
+import { Howl } from 'howler';
+
 export default class Timer {
   timerInterval: NodeJS.Timeout;
   timeCounter: number;
@@ -8,7 +10,7 @@ export default class Timer {
 
   constructor() {
     this.timerInterval = null;
-    this.timeCounter = 25 * 60 - 55;
+    this.timeCounter = 1;
     this.timerElement = document.querySelector('.timer-numbers');
     this.startBtn = document.querySelector('.start_btn');
     this.stopBtn = document.querySelector('.stop_btn');
@@ -25,8 +27,12 @@ export default class Timer {
     this.setTime();
 
     this.timerInterval = setInterval(() => {
-      this.timeCounter -= 1;
-      this.setTime();
+      if(this.timeCounter > 0) {
+        this.timeCounter -= 1;
+        this.setTime();
+      } else {
+        this.endTimer();
+      }
     }, 1000);
 
     this.stopBtn.addEventListener('click', this.stopTimer);
@@ -49,9 +55,20 @@ export default class Timer {
     this.timerElement.innerHTML = formattedTime;
   }
 
+  private endTimer = (): void => {
+    this.stopTimer();
+    const entSound = new Howl({
+      src: ['./endTimer.mp3']
+    });
+    entSound.play()
+    setTimeout(() => {
+      entSound.stop()
+    }, 5000);
+  }
+
   private resetTimer = (): void => {
     this.stopTimer();
-    this.timeCounter = 0;
+    this.timeCounter = 25 * 60;
     this.setTime();
   } 
 }

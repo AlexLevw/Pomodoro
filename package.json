@@ -11,9 +11,11 @@
     "start": "webpack serve"
   },
   "dependencies": {
+    "@types/howler": "^2.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
+    "howler": "^2.2.1",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
