@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "system",
+    "module": "es6",
     "removeComments": true,
     "preserveConstEnums": true,
-    "outFile": "./build/main.js",
     "sourceMap": true
   },
   "include": ["src/**/*"],
