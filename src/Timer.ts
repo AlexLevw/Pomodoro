@@ -1,47 +1,65 @@
 import { Howl } from 'howler';
 
 export default class Timer {
-  timerInterval: NodeJS.Timeout;
   timeCounter: number;
+  timerStatus: string;
   timerElement: Element;
-  startBtn: Element;
-  stopBtn: Element;
+  startStopBtn: Element;
   resetBtn: Element;
 
   constructor() {
-    this.timerInterval = null;
-    this.timeCounter = 1;
+    this.timeCounter = 25 * 60;
+    this.timerStatus = 'stopped';
     this.timerElement = document.querySelector('.timer-numbers');
-    this.startBtn = document.querySelector('.start_btn');
-    this.stopBtn = document.querySelector('.stop_btn');
+    this.startStopBtn = document.querySelector('.start-stop');
     this.resetBtn = document.querySelector('.reset_btn');
   }
 
   public inti(): void {
-    this.startBtn.addEventListener('click', this.startTimer);
+    this.startStopBtn.addEventListener('click', this.startTimer);
     this.resetBtn.addEventListener('click', this.resetTimer);
+    this.setTime();
   }
 
   private startTimer = (event: Event): void => {
     event.target.removeEventListener('click', this.startTimer);
-    this.setTime();
+  
+    this.timerStatus = 'started';
 
-    this.timerInterval = setInterval(() => {
-      if(this.timeCounter > 0) {
+    const interval: number = 1000;
+    let expected: number = new Date().getTime() + interval;
+
+    function step(): void {
+      const dt = new Date().getTime() - expected;
+
+      if (this.timeCounter > 0 && this.timerStatus === 'started') {
         this.timeCounter -= 1;
         this.setTime();
+        expected += interval;
+        setTimeout(step.bind(this), Math.max(0, interval - dt));
+      } else if (this.timerStatus === 'stopped') {
+        this.stopTimer();
       } else {
+        console.log(this.timerStatus)
         this.endTimer();
       }
-    }, 1000);
+    }
 
-    this.stopBtn.addEventListener('click', this.stopTimer);
+    setTimeout(step.bind(this), interval);
+
+    this.startStopBtn.textContent = 'Stop';
+    this.startStopBtn.classList.add('active');
+    this.startStopBtn.addEventListener('click', this.stopTimer);
   }
 
   private stopTimer = (): void => {
-    this.stopBtn,removeEventListener('click', this.stopTimer);
-    clearInterval(this.timerInterval);
-    this.startBtn.addEventListener('click', this.startTimer);
+    this.startStopBtn.removeEventListener('click', this.stopTimer);
+
+    this.timerStatus = 'stopped';
+
+    this.startStopBtn.textContent = 'Start';
+    this.startStopBtn.classList.remove('active');
+    this.startStopBtn.addEventListener('click', this.startTimer);
   }
 
   private setTime = (): void => {

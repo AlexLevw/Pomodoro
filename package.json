@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve --open"
   },
   "dependencies": {
     "@types/howler": "^2.2.1",

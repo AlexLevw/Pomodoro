@@ -69,10 +69,13 @@ body {
   opacity: 1;
 }
 
-.start_btn {
+.start-stop {
   background-color: #00cf91;
+  &.active {
+    content: 'Stop';
+    background-color: #f85c50;
+  }
 }
-
-.stop_btn {
-  background-color: #f85c50;
+.reset_btn {
+  width: 80px;
 }
